@@ -17,67 +17,43 @@ export class Programa {
   @PrimaryGeneratedColumn('identity')
   id: number;
 
-  @Column({
-    name: 'id_nivel_academico',type: 'int',
-  })
+  @Column({name: 'id_nivel_academico',type: 'int',})
   idNivelAcademico: number;
 
   @ManyToOne(
     () => NivelAcademico,
     (nivelAcademico) => nivelAcademico.programas,
   )
-  @JoinColumn({
-    name: 'id_nivel_academico',
-  })
+  @JoinColumn({name: 'id_nivel_academico',})
   nivelAcademico: NivelAcademico;
 
-  @Column({
-    type: 'varchar',length: 100,
-  })
+  @Column({type: 'varchar',length: 100,})
   nombre: string;
 
-  @Column({
-    type: 'varchar',length: 2000,
-  })
+  @Column({type: 'varchar',length: 2000,})
   descripcion: string;
 
-  @Column({
-    type: 'int',
-  })
+  @Column({type: 'int',})
   version: number;
 
-  @Column({
-    name: 'duracion_meses',type: 'int',
-  })
+  @Column({name: 'duracion_meses',type: 'int',})
   duracionMeses: number;
 
-  @Column({
-    type: 'decimal',precision: 10,scale: 2,
-  })
+  @Column({type: 'decimal',precision: 10,scale: 2,})
   costo: number;
 
-  @Column({
-    name: 'fecha_inicio', type: 'date',
-  })
+  @Column({name: 'fecha_inicio', type: 'date',})
   fechaInicio: Date;
 
-  @Column({
-    type: 'enum', enum: EstadoPrograma,
-  })
+  @Column({type: 'enum', enum: EstadoPrograma,})
   estado: EstadoPrograma;
 
-  @CreateDateColumn({
-    name: 'fecha_creacion',
-  })
+  @CreateDateColumn({name: 'fecha_creacion',})
   fechaCreacion: Date;
 
-  @UpdateDateColumn({
-    name: 'fecha_modificacion',
-  })
+  @UpdateDateColumn({name: 'fecha_modificacion',})
   fechaModificacion: Date;
 
-  @DeleteDateColumn({
-    name: 'fecha_eliminacion',
-  })
+  @DeleteDateColumn({name: 'fecha_eliminacion',})
   fechaEliminacion: Date;
 }

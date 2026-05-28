@@ -1,24 +1,45 @@
-import { Injectable } from '@nestjs/common';
-
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import { Createniveles-academicoDto } from './dto/create-niveles-academico.dto';
+import { Updateniveles-academicoDto } from './dto/update-niveles-academico.dto';
+import { niveles-academico } from './entities/niveles-academico.entity';
+import { In, Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { describe } from 'node:test';
+   
 @Injectable()
-export class NivelAcademicoService {
-  create(createNivelAcademicoDto: any) {
-    return 'Crear nivel académico';
+export class NivelesAcademicosService {
+  constructor(@InjectRepository(niveles-academico) private niveles-academicoRepository: Repository<niveles-academico>) {}
+
+  async create(createniveles-academicoDto: Createniveles-academicoDto): Promise<niveles-academico> {
+    let niveles-academico = await this.niveles-academicoRepository.findOneBy({
+      nombre: createniveles-academicoDto.nombre.trim(),
+      descripcion: createniveles-academicoDto.descripcion.trim(),
+    });
+    if (niveles-academico) throw new ConflictException('El niveles-academico ya existe');
+
+    niveles-academico = new niveles-academico();
+    Object.assign(niveles-academico, createniveles-academicoDto);
+    return this.niveles-academicoRepository.save(niveles-academico);
   }
 
-  findAll() {
-    return 'Mostrar todos';
+  async findAll(): Promise<niveles-academico[]> {
+    return this.niveles-academicoRepository.find({ order: { nombre: 'ASC' } });
   }
 
-  findOne(id: number) {
-    return `Mostrar ${id}`;
+  async findOne(id: number): Promise<niveles-academico> {
+    const niveles-academico = await this.niveles-academicoRepository.findOneBy({ id });
+    if (!niveles-academico) throw new NotFoundException('El niveles-academico no existe');
+    return niveles-academico;
   }
 
-  update(id: number, updateNivelAcademicoDto: any) {
-    return `Actualizar ${id}`;
+  async update(id: number, updateNivelesAcademicosDto: UpdateNivelesAcademicosDto): Promise<niveles-academico> {
+    const niveles-academico = await this.findOne(id);
+    Object.assign(niveles-academico, updateNivelesAcademicosDto);
+    return this.niveles-academicoRepository.save(niveles-academico);
   }
 
-  remove(id: number) {
-    return `Eliminar ${id}`;
+  async remove(id: number): Promise<niveles-academico> {
+    const niveles-academico = await this.findOne(id);
+    return this.niveles-academicoRepository.softRemove(niveles-academico);
   }
 }
