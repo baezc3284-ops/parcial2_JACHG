@@ -20,12 +20,16 @@ export class Programa {
   @Column({name: 'id_nivel_academico',type: 'int',})
   idNivelAcademico: number;
 
-  @ManyToOne(
-    () => NivelAcademico,
-    (nivelAcademico) => nivelAcademico.programas,
-  )
+  @ManyToOne(() => NivelAcademico,(nivelAcademico) => nivelAcademico.programas,)
   @JoinColumn({name: 'id_nivel_academico',})
   nivelAcademico: NivelAcademico;
+
+   @Column({name: 'area_conocimiento',type: 'int',})
+  AreaConocimiento: number;
+
+  @ManyToOne(() => Areaconocimiento,(areaConocimiento) => areaConocimiento.programas,)
+  @JoinColumn({name: 'area_conocimiento',})
+  areaConocimiento: Areaconocimiento;
 
   @Column({type: 'varchar',length: 100,})
   nombre: string;
@@ -47,6 +51,18 @@ export class Programa {
 
   @Column({type: 'enum', enum: EstadoPrograma,})
   estado: EstadoPrograma;
+   
+  @Column({type: 'varchar',length: 100,})
+  Derecho: string ;
+
+   @Column({type: 'varchar',length: 100,})
+  Educacion: string;
+
+    @Column({type: 'varchar',length: 100,})
+  Ingenieria: string; 
+  
+   @Column({type: 'varchar',length: 100,})
+  Salud: string;
 
   @CreateDateColumn({name: 'fecha_creacion',})
   fechaCreacion: Date;

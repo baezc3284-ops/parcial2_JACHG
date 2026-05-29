@@ -26,18 +26,12 @@ export class programaesService {
   }
 
   async findOne(id: number): Promise<programa> {
-    const programa = await this.programaRepository.findOne({
-      where: { id },
-      relations: { programa: true },
-    });
+    const programa = await this.programaRepository.findOne({ where: { id },relations: { programa: true },});
     if (!programa) throw new NotFoundException('El programa no existe');
     return programa;
   }
 
-  async findByArtista(idArtista: number): Promise<programa[]> {
-    return this.programaRepository.find({
-      where: { idprograma },
-      order: { nombre: 'ASC' },
+  async findByArtista(idArtista: number): Promise<programa[]> {return this.programaRepository.find({where: { idprograma },order: { nombre: 'ASC' },
     });
   }
 
